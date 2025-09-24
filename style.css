@@ -1,0 +1,150 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	background: linear-gradient(135deg, #ffb6c1 0%, #ffe4e1 100%);
+	min-height: 100vh;
+	color: #333;
+	overflow-x: hidden;
+}
+
+#loading-screen {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background: rgba(255,255,255,0.95);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.loader {
+	border: 8px solid #ffe4e1;
+	border-top: 8px solid #ff69b4;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	animation: spin 1s linear infinite;
+	margin-bottom: 20px;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+#app header {
+	text-align: center;
+	margin-top: 40px;
+}
+
+#app h1 {
+	font-size: 2.2rem;
+	color: #ff69b4;
+	margin-bottom: 0.2em;
+	letter-spacing: 2px;
+}
+
+#app p {
+	font-size: 1.1rem;
+	color: #c71585;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+	min-height: 60vh;
+}
+
+#birth-form {
+	background: #fff;
+	padding: 18px 18px;
+	border-radius: 16px;
+	box-shadow: 0 4px 16px rgba(255,105,180,0.13);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	font-size: 1rem;
+}
+
+#birth-form label {
+	font-size: 1rem;
+	color: #c71585;
+}
+
+#birthdate {
+	padding: 7px 10px;
+	border: 1px solid #ffb6c1;
+	border-radius: 8px;
+	font-size: 1rem;
+}
+
+#birth-form button {
+	background: linear-gradient(90deg, #ff69b4, #ffb6c1);
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 8px 18px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.2s;
+	font-weight: bold;
+	box-shadow: 0 2px 8px rgba(255,105,180,0.10);
+}
+
+#birth-form button:hover {
+	background: linear-gradient(90deg, #ffb6c1, #ff69b4);
+}
+
+#match-result {
+	margin-top: 24px;
+	min-height: 60px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.match-card {
+	background: #fff0f5;
+	border: 2px solid #ff69b4;
+	border-radius: 16px;
+	padding: 16px 18px;
+	box-shadow: 0 4px 16px rgba(255,182,193,0.13);
+	text-align: center;
+	animation: pop 0.5s;
+	font-size: 1rem;
+}
+
+.match-card h3 {
+	color: #c71585;
+	margin-bottom: 0.5em;
+	font-size: 1.2rem;
+}
+
+.match-card p {
+	font-size: 1.1rem;
+	color: #ff69b4;
+	font-weight: bold;
+}
+#ai-avatars img {
+	width: 90px !important;
+	height: 90px !important;
+	border-radius: 50%;
+	box-shadow: 0 2px 8px #ffb6c1;
+	object-fit: cover;
+	margin-bottom: 6px;
+}
+#ai-avatars div {
+	font-size: 1rem;
+}
+
+@keyframes pop {
+	0% { transform: scale(0.8); opacity: 0; }
+	100% { transform: scale(1); opacity: 1; }
+}

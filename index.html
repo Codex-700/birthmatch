@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Birth Match - Fun Dating Site</title>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <h2>Finding your Birth Match...</h2>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" style="display:none;">
+        <header>
+            <h1>Birth Match</h1>
+            <p>Find your perfect match by your birthdate!</p>
+        </header>
+        <main>
+            <div id="ai-avatars" style="display:flex;justify-content:center;gap:32px;margin-bottom:24px;">
+                <div style="text-align:center;">
+                    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=handsomeboy" alt="Handsome Boy" style="width:110px;height:110px;border-radius:50%;box-shadow:0 2px 8px #ffb6c1;object-fit:cover;">
+                    <div style="margin-top:8px;color:#c71585;font-weight:bold;">Handsome Boy</div>
+                </div>
+                <div style="text-align:center;">
+                    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=prettygirl" alt="Pretty Girl" style="width:110px;height:110px;border-radius:50%;box-shadow:0 2px 8px #ffb6c1;object-fit:cover;">
+                    <div style="margin-top:8px;color:#c71585;font-weight:bold;">Pretty Girl</div>
+                </div>
+            </div>
+            <form id="birth-form">
+                <label for="profile-pic">Upload your profile picture:</label>
+                <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
+                <div id="profile-pic-preview" style="margin-bottom:10px;"></div>
+                <label for="birthdate">Enter your birthdate:</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+                <button type="submit">Find My Match</button>
+            </form>
+            <div id="match-result"></div>
+        </main>
+    </div>
+
+    <script>
+        // Show loading screen for 2 seconds, then show app
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+            }, 2000);
+        };
+
+        // Profile picture preview
+        document.addEventListener('DOMContentLoaded', function() {
+            const picInput = document.getElementById('profile-pic');
+            const preview = document.getElementById('profile-pic-preview');
+            if (picInput) {
+                picInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(evt) {
+                            preview.innerHTML = `<img src="${evt.target.result}" alt="Profile Preview" style="width:80px;height:80px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px #ffb6c1;">`;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.innerHTML = '';
+                    }
+                });
+            }
+        });
+
+        // Fun fake matching logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('birth-form');
+            const result = document.getElementById('match-result');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const birthdate = document.getElementById('birthdate').value;
+                if (!birthdate) return;
+                // Generate a fun match result
+                const matches = [
+                    'a mysterious Scorpio who loves adventure!',
+                    'a charming Gemini with a witty sense of humor!',
+                    'a passionate Leo who will sweep you off your feet!',
+                    'a caring Cancer who will always be there for you!',
+                    'an ambitious Capricorn who shares your dreams!',
+                    'a creative Pisces who will inspire you!',
+                    'a fun-loving Sagittarius ready for anything!',
+                    'a loyal Taurus who values true connection!',
+                    'an intellectual Aquarius who will challenge your mind!',
+                    'a romantic Libra who believes in destiny!'
+                ];
+                // Use birthdate to pick a match
+                const index = (birthdate.split('-').join('').split('').reduce((a,b)=>a+parseInt(b),0)) % matches.length;
+                let html = `<div class=\"match-card\"><h3>Your Birth Match is...</h3><p>${matches[index]}</p></div>`;
+
+                // Mock user data
+                const users = [
+                    { name: 'Alex', month: 1, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Alex' },
+                    { name: 'Jamie', month: 2, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Jamie' },
+                    { name: 'Taylor', month: 3, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Taylor' },
+                    { name: 'Jordan', month: 4, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Jordan' },
+                    { name: 'Morgan', month: 5, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Morgan' },
+                    { name: 'Casey', month: 6, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Casey' },
+                    { name: 'Riley', month: 7, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Riley' },
+                    { name: 'Skyler', month: 8, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Skyler' },
+                    { name: 'Drew', month: 9, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Drew' },
+                    { name: 'Quinn', month: 10, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Quinn' },
+                    { name: 'Avery', month: 11, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Avery' },
+                    { name: 'Peyton', month: 12, pic: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Peyton' }
+                ];
+                const userMonth = parseInt(birthdate.split('-')[1]);
+                // Find users with the same or closest month
+                let sameMonth = users.filter(u => u.month === userMonth);
+                if (sameMonth.length === 0) {
+                    // If no exact, find closest
+                    let minDiff = Math.min(...users.map(u => Math.abs(u.month - userMonth)));
+                    sameMonth = users.filter(u => Math.abs(u.month - userMonth) === minDiff);
+                }
+                html += `<div style=\"margin-top:18px;text-align:center;\"><h4>Other users with your birth month or closest:</h4><div style=\"display:flex;flex-wrap:wrap;justify-content:center;gap:18px;\">`;
+                sameMonth.forEach(u => {
+                    html += `<div style=\"background:#fff0f5;border:1.5px solid #ffb6c1;border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;align-items:center;width:110px;\"><img src=\"${u.pic}\" alt=\"${u.name}\" style=\"width:60px;height:60px;border-radius:50%;margin-bottom:7px;object-fit:cover;box-shadow:0 1px 4px #ffb6c1;\"><div style=\"font-weight:bold;color:#c71585;\">${u.name}</div><div style=\"font-size:0.95em;color:#ff69b4;\">Month: ${u.month}</div></div>`;
+                });
+                html += `</div></div>`;
+                result.innerHTML = html;
+            });
+        });
+    </script>
+</body>
+</html>
